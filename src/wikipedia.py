@@ -26,7 +26,6 @@ def is_page_valid(pageTitle):
 def get_page_links(pageTitle):
     try:
         links = []
-
         query_params = {
             "action": "query",
             "format": "json",

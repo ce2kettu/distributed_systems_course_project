@@ -14,8 +14,7 @@ class SimpleThreadedXMLRPCServer(ThreadingMixIn, SimpleXMLRPCServer):
 
 def compute_shortest_wikipedia_path(start_page, end_page):
     startTime = time.time()
-    shortestPath = breadth_first_search.find_shortest_path(
-        start_page, end_page)
+    shortestPath = breadth_first_search.find_shortest_path(start_page, end_page)
     endTime = time.time()
     deltaTime = round(endTime - startTime, 2)
     return (shortestPath, deltaTime)
