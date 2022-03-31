@@ -1,4 +1,4 @@
-# Sources used for the solution:
+# Sources:
 #
 # Wikipedia API:
 # https://www.mediawiki.org/wiki/API:Links
