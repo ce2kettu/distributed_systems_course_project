@@ -5,8 +5,8 @@ from socketserver import ThreadingMixIn
 from xmlrpc.server import SimpleXMLRPCServer
 import time
 import breadth_first_search
+import wikipedia
 import config
-import test
 
 
 class SimpleThreadedXMLRPCServer(ThreadingMixIn, SimpleXMLRPCServer):
@@ -14,11 +14,18 @@ class SimpleThreadedXMLRPCServer(ThreadingMixIn, SimpleXMLRPCServer):
 
 
 def compute_shortest_wikipedia_path(start_page, end_page):
-    start_time = time.time()
-    shortest_path = test.find_shortest_path(start_page, end_page)
-    end_time = time.time()
-    delta_time = round(end_time - start_time, 2)
-    return (shortest_path, delta_time)
+    # find the pages by the provided search term
+    start_page = wikipedia.search(start_page)
+    end_page = wikipedia.search(end_page)
+
+    if (start_page and end_page):
+        start_time = time.time()
+        shortest_path = breadth_first_search.find_shortest_path(start_page, end_page)
+        end_time = time.time()
+        delta_time = round(end_time - start_time, 2)
+        return (shortest_path, delta_time, None)
+
+    return ([], 0, "invalid start page and/or end page")
 
 
 def create_and_run_server():

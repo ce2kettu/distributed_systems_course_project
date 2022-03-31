@@ -8,19 +8,22 @@
 import requests
 
 WIKIPEDIA_API_URL = "https://en.wikipedia.org/w/api.php"
-WIKIPEDIA_WIKI_URL = "https://en.wikipedia.org/wiki/"
 
 
-def is_page_valid(page_title):
+def search(query):
     try:
-        if len(page_title.strip()) == 0:
-            return False
+        query_params = {
+            "action": "query",
+            "format": "json",
+            "list": "search",
+            "srlimit": 1,
+            "srsearch": query
+        }
 
-        res = requests.get(url=WIKIPEDIA_WIKI_URL + page_title)
-        return res.status_code == 200
-    except Exception as e:
-        print(f"Failed to check page '{page_title}' validity: {e}")
-        return False
+        data = execute_query(query_params)
+        return data['query']['search'][0]['title']
+    except:
+        return None
 
 
 def get_page_links(page_title):
@@ -35,7 +38,7 @@ def get_page_links(page_title):
         }
 
         # initial API request to fetch article links
-        data = wikipedia_query(query_params)
+        data = execute_query(query_params)
         pages = data["query"]["pages"]
         append_link_titles_to_list(pages, links)
 
@@ -43,7 +46,7 @@ def get_page_links(page_title):
         while "continue" in data:
             # continue from the last query
             query_params["plcontinue"] = data["continue"]["plcontinue"]
-            data = wikipedia_query(query_params)
+            data = execute_query(query_params)
             pages = data["query"]["pages"]
             append_link_titles_to_list(pages, links)
 
@@ -52,7 +55,7 @@ def get_page_links(page_title):
         print(f"Failed to get page links '{page_title}': {e}")
         return ([], page_title)
 
-def wikipedia_query(params):
+def execute_query(params):
     res = requests.get(url=WIKIPEDIA_API_URL, params=params)
     return res.json()
 

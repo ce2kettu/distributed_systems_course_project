@@ -72,7 +72,7 @@ def find_shortest_path(start_page, end_page):
 
     while queue:
         page, path = queue.pop(0)
-        print(f"Traversing page: {page}, the degree is {len(path) - 1}")
+        print(f"Traversing page '{page}', the degree is {len(path) - 1}")
 
         shortest_path = get_page_links_concurrently(visited, page, end_page, path, queue)
 

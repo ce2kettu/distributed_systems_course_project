@@ -17,14 +17,17 @@ def get_shortest_path(rpc):
     start_page = input("Start page: ")
     end_page = input("End page: ")
 
-    shortest_path, delta_time = rpc.compute_shortest_wikipedia_path(start_page, end_page)
+    shortest_path, delta_time, err_msg = rpc.compute_shortest_wikipedia_path(start_page, end_page)
     shortest_path_length = len(shortest_path)
     
     if (shortest_path_length != 0):
         print(f"Path found with {shortest_path_length - 1} degree(s) of separation in {delta_time} seconds:")
         print(shortest_path)
     else:
-        print("Could not find a path between the pages or the server failed to process your request.")
+        if (err_msg):
+            print(f"Query failed: {err_msg}")
+        else:
+            print("Could not find a path between the pages or the server failed to process your request.")
 
 
 def main():
@@ -42,6 +45,8 @@ def main():
                     get_shortest_path(rpc)
                 case _:
                     print("Invalid option. Try again.")
+
+            print()
     except KeyboardInterrupt:
         pass
     except Exception as e:
