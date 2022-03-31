@@ -6,6 +6,7 @@ from xmlrpc.server import SimpleXMLRPCServer
 import time
 import breadth_first_search
 import config
+import test
 
 
 class SimpleThreadedXMLRPCServer(ThreadingMixIn, SimpleXMLRPCServer):
@@ -13,11 +14,11 @@ class SimpleThreadedXMLRPCServer(ThreadingMixIn, SimpleXMLRPCServer):
 
 
 def compute_shortest_wikipedia_path(start_page, end_page):
-    startTime = time.time()
-    shortestPath = breadth_first_search.find_shortest_path(start_page, end_page)
-    endTime = time.time()
-    deltaTime = round(endTime - startTime, 2)
-    return (shortestPath, deltaTime)
+    start_time = time.time()
+    shortest_path = test.find_shortest_path(start_page, end_page)
+    end_time = time.time()
+    delta_time = round(end_time - start_time, 2)
+    return (shortest_path, delta_time)
 
 
 def create_and_run_server():
