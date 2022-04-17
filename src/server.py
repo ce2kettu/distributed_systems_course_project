@@ -23,7 +23,7 @@ def compute_shortest_wikipedia_path(start_page, end_page):
         shortest_path = breadth_first_search.find_shortest_path(start_page, end_page)
         end_time = time.time()
         delta_time = round(end_time - start_time, 2)
-        return (shortest_path, delta_time, None)
+        return (shortest_path, delta_time, "")
 
     return ([], 0, "invalid start page and/or end page")
 
