@@ -11,11 +11,11 @@
 # https://github.com/stong1108/WikiRacer/blob/master/wikiracer.py
 
 import concurrent.futures
-import wikipedia
 import multiprocessing
+import wikipedia
 
 # returns a non-empty array if a shortest path has been found
-def get_page_links_concurrently(visited, current_page, end_page, path, queue):
+def get_page_links_concurrently(visited, current_page, end_page, current_path, queue):
     # thread amount defaults to the number of processors on the machine, multiplied by 5
     with concurrent.futures.ThreadPoolExecutor() as executor:
         futures = []
@@ -34,10 +34,10 @@ def get_page_links_concurrently(visited, current_page, end_page, path, queue):
             try:
                 # shortest path found - return it
                 if end_page in page_links:
-                    return path + [page, end_page]
+                    return current_path + [page, end_page]
 
                 # add the page to the queue and mark it as visited
-                queue.append((page, path + [page]))
+                queue.append((page, current_path + [page]))
                 visited[page] = page_links
             except:
                 print(f"Failed to complete the future for '{page}'.")
